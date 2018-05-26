@@ -11,7 +11,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @FeignClient(value = "transport", url = "${transport.url}")
 public interface TransportClient {
 
-    @RequestMapping(method = GET, value = "/connections", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = GET, value = "/connections?fields[]=connections/from&fields[]=connections/to", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     Connections getConnections(@RequestParam("from") String from, @RequestParam("to") String to);
-
 }
