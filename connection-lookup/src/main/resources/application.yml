@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: Connections Lookup
+  output:
+    ansi:
+      enabled: always
+
+transport:
+  url: http://transport.opendata.ch/v1/
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+        encoder: ch.octo.blog.transport.utils.JacksonEncoderWithOptionalSupport
+        decoder: ch.octo.blog.transport.utils.JacksonDecoderWithOptionalSupport
+        contract: org.springframework.cloud.openfeign.support.SpringMvcContract
+
+logging:
+  level:
+    root: WARN
+    ch.octo.blog.transport: DEBUG
+debug: false

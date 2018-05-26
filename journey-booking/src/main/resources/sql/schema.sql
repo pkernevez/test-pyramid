@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS journey
+(
+    id SERIAL NOT NULL ,
+    station_from VARCHAR(150) NOT NULL,
+    station_to VARCHAR(150) NOT NULL,
+    departure TIMESTAMP WITH TIME ZONE,
+    arrival TIMESTAMP WITH TIME ZONE,
+    PRIMARY KEY (id)
+);

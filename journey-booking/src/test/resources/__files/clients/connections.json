@@ -1,0 +1,60 @@
+{
+  "connections": [
+    {
+      "from": {
+        "station": {
+          "name": "Lausanne"
+        },
+        "departureTimestamp": 1525177200
+      },
+      "to": {
+        "station": {
+          "name": "Zürich HB"
+        },
+        "arrivalTimestamp": 1525184880
+      }
+    },
+    {
+      "from": {
+        "station": {
+          "name": "Lausanne"
+        },
+        "departureTimestamp": 1525178640
+      },
+      "to": {
+        "station": {
+          "name": "Zürich HB"
+        },
+        "arrivalTimestamp": 1525186680
+      }
+    },
+    {
+      "from": {
+        "station": {
+          "name": "Lausanne"
+        },
+        "departureTimestamp": 1525180800
+      },
+      "to": {
+        "station": {
+          "name": "Zürich HB"
+        },
+        "arrivalTimestamp": 1525188480
+      }
+    },
+    {
+      "from": {
+        "station": {
+          "name": "Lausanne"
+        },
+        "departureTimestamp": 1525182240
+      },
+      "to": {
+        "station": {
+          "name": "Zürich HB"
+        },
+        "arrivalTimestamp": 1525190280
+      }
+    }
+  ]
+}
