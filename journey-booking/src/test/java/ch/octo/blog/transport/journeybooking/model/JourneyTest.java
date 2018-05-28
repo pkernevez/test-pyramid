@@ -5,11 +5,7 @@ import ch.octo.blog.transport.dto.Connection;
 import ch.octo.blog.transport.dto.Location;
 import org.junit.Test;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
+import static ch.octo.blog.transport.journeybooking.model.Journey.fromConnection;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -22,13 +18,12 @@ public class JourneyTest {
     private static final long ARRIVAL = 15247535619L;
 
     @Test
-    public void setFromConnection_ShouldSetAttributes_WhenConnectionIsValid() {
+    public void fromConnection_ShouldSetAttributes_WhenConnectionIsValid() {
         // given
         Connection connection = setupValidConnection();
-        Journey journey = new Journey();
 
         // when
-        journey.setFromConnection(connection);
+        Journey journey = fromConnection(connection);
 
         // then
         assertThat(journey.getId()).isNull();
@@ -36,49 +31,43 @@ public class JourneyTest {
     }
 
     @Test
-    public void setFromConnection_ShouldSetAttributesAndKeepId_WhenIdSet() {
+    public void fromConnectionWithId_ShouldSetAttributesAndKeepId_WhenIdSet() {
         // given
         Connection connection = setupValidConnection();
         Journey journey = new Journey();
-        long id = 2012L;
+        long id = 20L;
         journey.setId(id);
 
         // when
-        journey.setFromConnection(connection);
+        journey = fromConnection(connection).withId(id);
 
         assertThat(journey.getId()).isEqualTo(id);
         assertValidJourney(journey);
     }
 
     @Test
-    public void setFromConnection_ShouldThrowException_WhenConnectionIsNull() {
-        // given
-        Journey journey = new Journey();
-
-        // when + then
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> journey.setFromConnection(null));
+    public void fromConnection_ShouldThrowException_WhenConnectionIsNull() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> fromConnection(null));
     }
 
     @Test
-    public void setFromConnection_ShouldThrowException_WhenFromIsNull() {
+    public void fromConnection_ShouldThrowException_WhenFromIsNull() {
         // given
-        Journey journey = new Journey();
         Connection connection = new Connection();
         connection.setTo(Checkpoint.builder().build());
 
         // when + then
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> journey.setFromConnection(connection));
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> fromConnection(connection));
     }
 
     @Test
-    public void setFromConnection_ShouldThrowException_WhenToIsNull() {
+    public void fromConnection_ShouldThrowException_WhenToIsNull() {
         // given
-        Journey journey = new Journey();
         Connection connection = new Connection();
         connection.setFrom(Checkpoint.builder().build());
 
         // when + then
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> journey.setFromConnection(connection));
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> fromConnection(connection));
     }
 
     private Connection setupValidConnection() {

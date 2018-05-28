@@ -4,6 +4,7 @@ import ch.octo.blog.transport.dto.Checkpoint;
 import ch.octo.blog.transport.dto.Connection;
 import ch.octo.blog.transport.dto.Connections;
 import ch.octo.blog.transport.dto.Location;
+import ch.octo.blog.transport.journeybooking.dto.JourneyDTO;
 import ch.octo.blog.transport.journeybooking.dto.Journeys;
 import ch.octo.blog.transport.journeybooking.model.Journey;
 import org.junit.Before;
@@ -106,11 +107,11 @@ public class JourneyControllerTest {
         given(service.getJourney(id)).willReturn(journey);
 
         // when
-        Journey journey1 = controller.getJourney(id);
+        JourneyDTO journey1 = controller.getJourney(id);
 
         // then
         verify(service).getJourney(id);
-        assertThat(journey1).isEqualTo(journey);
+        assertThat(journey1).isEqualToComparingFieldByField(journey);
     }
 
     @Test
@@ -130,11 +131,11 @@ public class JourneyControllerTest {
         given(service.bookJourney(connection)).willReturn(journey);
 
         // when
-        Journey journey1 = controller.bookJourney(connection);
+        JourneyDTO journey1 = controller.bookJourney(connection);
 
         // then
         verify(service).bookJourney(connection);
-        assertThat(journey1).isEqualTo(journey);
+        assertThat(journey1).isEqualToComparingFieldByField(journey);
     }
 
     @Test
@@ -155,11 +156,11 @@ public class JourneyControllerTest {
         given(service.updateJourney(id, connection)).willReturn(journey);
 
         // when
-        Journey journey1 = controller.updateJourney(id, connection);
+        JourneyDTO journey1 = controller.updateJourney(id, connection);
 
         // then
         verify(service).updateJourney(id, connection);
-        assertThat(journey1).isEqualTo(journey);
+        assertThat(journey1).isEqualToComparingFieldByField(journey);
     }
 
     @Test

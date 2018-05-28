@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static ch.octo.blog.transport.journeybooking.JourneyNotFoundException.MSG_JOURNEY_NOT_FOUND;
+import static ch.octo.blog.transport.journeybooking.model.Journey.fromConnection;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -176,24 +177,24 @@ public class JourneyServiceTest {
     public void updateJourney_ShouldUpdateJourney_WhenJourneyExists() {
         // given
         Journey journey = new Journey();
-        Checkpoint from = Checkpoint.builder().station(new Location("from")).departure(DEPARTURE).build();
-        Checkpoint to = Checkpoint.builder().station(new Location("to")).arrival(ARRIVAL).build();
-        Connection connection = new Connection(from, to);
-        journey.setFromConnection(connection);
+        journey.setId(18L);
+        journey.setFrom("from");
+        journey.setTo("to");
+        journey.setDeparture(new Date(DEPARTURE));
+        journey.setArrival(new Date(ARRIVAL));
         given(journeyRepository.findById(18L)).willReturn(Optional.of(journey));
 
-        Journey journey1 = new Journey();
         Checkpoint from1 = Checkpoint.builder().station(new Location("from")).departure(DEPARTURE).build();
         Checkpoint to1 = Checkpoint.builder().station(new Location("to")).arrival(ARRIVAL).build();
         Connection connection1 = new Connection(from1, to1);
-        journey1.setFromConnection(connection1);
+        Journey journey1 = fromConnection(connection1).withId(18L);
         given(journeyRepository.save(journey1)).willReturn(journey1);
 
         // when
         Journey journey2 = service.updateJourney(18L, connection1);
 
         // then
-        assertEquals(journey1, journey2);
+        assertThat(journey2).isEqualToComparingFieldByField(journey1);
     }
 
     @Test
@@ -205,6 +206,8 @@ public class JourneyServiceTest {
         Checkpoint from1 = Checkpoint.builder().station(new Location("from")).departure(DEPARTURE).build();
         Checkpoint to1 = Checkpoint.builder().station(new Location("to")).arrival(ARRIVAL).build();
         Connection connection1 = new Connection(from1, to1);
+
+        // then
         assertThatExceptionOfType(JourneyNotFoundException.class)
                 .isThrownBy(() -> service.updateJourney(18L, connection1))
                 .withMessage(String.format(MSG_JOURNEY_NOT_FOUND, 18L));
@@ -221,14 +224,5 @@ public class JourneyServiceTest {
         // then
         then(journeyRepository).should().findAll();
         assertThat(allJourneys).hasSize(1);
-    }
-
-    private Journey getJourney(Checkpoint from, Checkpoint to) {
-        Journey journey = new Journey();
-        journey.setFrom(from.getStation().getName());
-        journey.setTo(to.getStation().getName());
-        journey.setDeparture(new Date(SECONDS.toMillis(from.getDeparture())));
-        journey.setArrival(new Date(SECONDS.toMillis(to.getArrival())));
-        return journey;
     }
 }

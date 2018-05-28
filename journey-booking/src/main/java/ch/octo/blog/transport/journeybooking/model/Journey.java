@@ -16,8 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"id"})
-@JsonInclude(NON_NULL)
+@EqualsAndHashCode(of = {"id"})
 public class Journey {
 
     @Id
@@ -36,14 +35,20 @@ public class Journey {
     @Temporal(TemporalType.TIMESTAMP)
     private Date arrival;
 
-    public Journey setFromConnection(Connection connection) {
+    public static Journey fromConnection(Connection connection) {
         if (connection == null || connection.getFrom() == null || connection.getTo() == null) {
             throw new IllegalArgumentException("Invalid connection");
         }
-        this.setFrom(connection.getFrom().getStation().getName());
-        this.setTo(connection.getTo().getStation().getName());
-        this.setDeparture(new Date(SECONDS.toMillis(connection.getFrom().getDeparture())));
-        this.setArrival(new Date(SECONDS.toMillis(connection.getTo().getArrival())));
+        Journey journey = new Journey();
+        journey.setFrom(connection.getFrom().getStation().getName());
+        journey.setTo(connection.getTo().getStation().getName());
+        journey.setDeparture(new Date(SECONDS.toMillis(connection.getFrom().getDeparture())));
+        journey.setArrival(new Date(SECONDS.toMillis(connection.getTo().getArrival())));
+        return journey;
+    }
+
+    public Journey withId(long id) {
+        this.setId(id);
         return this;
     }
 }

@@ -2,8 +2,8 @@ package ch.octo.blog.transport.journeybooking;
 
 import ch.octo.blog.transport.dto.Connection;
 import ch.octo.blog.transport.dto.Connections;
+import ch.octo.blog.transport.journeybooking.dto.JourneyDTO;
 import ch.octo.blog.transport.journeybooking.dto.Journeys;
-import ch.octo.blog.transport.journeybooking.model.Journey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
+import static ch.octo.blog.transport.journeybooking.dto.JourneyDTO.fromEntity;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
@@ -36,26 +38,29 @@ public class JourneyController {
 
     @GetMapping
     public Journeys getAllJourneys() {
-        return new Journeys(journeyService.getAllJourneys());
+        return new Journeys(journeyService.getAllJourneys()
+                .stream()
+                .map(JourneyDTO::fromEntity)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public Journey getJourney(@PathVariable("id") Long id) {
-        return journeyService.getJourney(id);
+    public JourneyDTO getJourney(@PathVariable("id") Long id) {
+        return fromEntity(journeyService.getJourney(id));
     }
 
     @PostMapping(consumes = {APPLICATION_JSON_UTF8_VALUE},
             produces = {APPLICATION_JSON_UTF8_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public Journey bookJourney(@Valid @RequestBody Connection connection) {
-        return journeyService.bookJourney(connection);
+    public JourneyDTO bookJourney(@Valid @RequestBody Connection connection) {
+        return fromEntity(journeyService.bookJourney(connection));
     }
 
     @PutMapping(value = "/{id}",
             consumes = {APPLICATION_JSON_UTF8_VALUE},
             produces = {APPLICATION_JSON_UTF8_VALUE})
-    public Journey updateJourney(@PathVariable("id") Long id, @Valid @RequestBody Connection connection) {
-        return journeyService.updateJourney(id, connection);
+    public JourneyDTO updateJourney(@PathVariable("id") Long id, @Valid @RequestBody Connection connection) {
+        return fromEntity(journeyService.updateJourney(id, connection));
     }
 
     @DeleteMapping("/{id}")

@@ -6,13 +6,10 @@ import ch.octo.blog.transport.journeybooking.model.Journey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static ch.octo.blog.transport.journeybooking.JourneyNotFoundException.MSG_JOURNEY_NOT_FOUND;
+import static ch.octo.blog.transport.journeybooking.model.Journey.fromConnection;
 
 @Service
 public class JourneyService {
@@ -33,8 +30,7 @@ public class JourneyService {
     }
 
     public Journey bookJourney(final Connection connection) {
-        Journey journey = new Journey();
-        journey.setFromConnection(connection);
+        Journey journey = fromConnection(connection);
 
         return journeyRepository.save(journey);
     }
@@ -47,7 +43,8 @@ public class JourneyService {
     }
 
     public Journey getJourney(final Long id) {
-        return journeyRepository.findById(id).orElseThrow(() -> new JourneyNotFoundException(String.format(MSG_JOURNEY_NOT_FOUND, id)));
+        return journeyRepository.findById(id)
+                .orElseThrow(() -> new JourneyNotFoundException(String.format(MSG_JOURNEY_NOT_FOUND, id)));
     }
 
     public List<Journey> getAllJourneys() {
@@ -55,10 +52,8 @@ public class JourneyService {
     }
 
     public Journey updateJourney(final Long id, final Connection connection) {
-        return journeyRepository.findById(id).map(journey -> {
-            journey.setFromConnection(connection);
-            return journeyRepository.save(journey);
-        }).orElseThrow(() -> new JourneyNotFoundException(String.format(MSG_JOURNEY_NOT_FOUND, id)));
+        return journeyRepository.findById(id).map(journey -> journeyRepository.save(fromConnection(connection).withId(journey.getId())))
+                .orElseThrow(() -> new JourneyNotFoundException(String.format(MSG_JOURNEY_NOT_FOUND, id)));
     }
 
 }
