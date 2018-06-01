@@ -1,0 +1,30 @@
+version: "3.6"
+
+services:
+  database:
+    image: postgres
+    volumes:
+      - /usr/local/lib/postgresql:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DBUSER}
+      POSTGRES_PASSWORD: ${DBPWD}
+
+  connection-lookup:
+    image: localhost:5000/transport/connection-lookup
+    ports:
+      - "8080:8080"
+
+  journey-booking:
+    image: localhost:5000/transport/journey-booking
+    ports:
+      - "8081:8081"
+    depends_on:
+      - database
+      - connection-lookup
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
+      SPRING_DATASOURCE_USERNAME: ${DBUSER}
+      SPRING_DATASOURCE_PASSWORD: ${DBPWD}
+      CONNECTION_LOOKUP_SERVER: http://connection-lookup:8080/

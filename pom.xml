@@ -13,8 +13,8 @@
 
     <modules>
         <module>transport-common</module>
-        <module>journey-booking</module>
         <module>connection-lookup</module>
+        <module>journey-booking</module>
     </modules>
 
     <properties>
