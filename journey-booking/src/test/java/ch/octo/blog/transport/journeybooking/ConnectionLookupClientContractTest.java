@@ -6,11 +6,16 @@ import com.netflix.loadbalancer.ServerList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.cloud.contract.stubrunner.StubFinder;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
+import org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration;
 import org.springframework.cloud.netflix.ribbon.StaticServerList;
+import org.springframework.cloud.openfeign.FeignAutoConfiguration;
+import org.springframework.cloud.openfeign.ribbon.FeignRibbonClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,10 +27,15 @@ import static org.junit.Assert.assertNotNull;
  * See also {@link ConnectionLookupClientCompTest} which is very similar except we don't manage Wiremock here, as it is managed by Spring and @{@link AutoConfigureStubRunner}
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = {
-        "feign.hystrix.enabled=false"
-})
-@AutoConfigureStubRunner(ids = {"ch.octo.blog:connection-lookup:+:stubs:8090"}, stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@ImportAutoConfiguration({RibbonAutoConfiguration.class,
+        FeignRibbonClientAutoConfiguration.class,
+        FeignAutoConfiguration.class})
+@SpringBootTest(classes = {ConnectionLookupClient.class, ConfigurationFeign.class},
+        properties = {
+                "feign.hystrix.enabled=false"
+        }
+)
+@AutoConfigureStubRunner(ids = {"ch.octo.blog:connection-lookup:+:stubs"}, stubsMode = StubRunnerProperties.StubsMode.LOCAL)
 public class ConnectionLookupClientContractTest {
 
     private static final String LAUSANNE = "Lausanne";
@@ -46,11 +56,15 @@ public class ConnectionLookupClientContractTest {
         assertEquals(3, connections.size());
     }
 
+    @SuppressWarnings("unused")
     @TestConfiguration
     public static class ServerConfiguration {
+        @Autowired
+        private StubFinder stubFinder;
+
         @Bean
         public ServerList<Server> staticServerList() {
-            return new StaticServerList<>(new Server("localhost", 8090));
+            return new StaticServerList<>(new Server("localhost", stubFinder.findStubUrl("ch.octo.blog:connection-lookup").getPort()));
         }
     }
 }
