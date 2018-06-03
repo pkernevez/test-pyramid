@@ -23,6 +23,7 @@ services:
     depends_on:
       - database
       - connection-lookup
+    command: ["./wait-for-it.sh", "database:5432"]
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/postgres
       SPRING_DATASOURCE_USERNAME: ${DBUSER}

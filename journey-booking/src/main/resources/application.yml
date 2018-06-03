@@ -9,6 +9,7 @@ spring:
     username: bob
     password: marley
     platform: POSTGRESQL
+    initialization-mode: always
     schema: classpath:sql/schema.sql
   jpa:
     show-sql: true
@@ -21,6 +22,9 @@ spring:
         temp:
           use_jdbc_metadata_defaults: false
     open-in-view: false
+  cloud:
+    refresh:
+      enabled: false # https://github.com/spring-cloud/spring-cloud-commons/issues/355
 
 hystrix:
   command:
@@ -57,7 +61,7 @@ server:
 
 logging:
   level:
-    root: WARN
+    root: DEBUG
     ch.octo.blog.transport: DEBUG
 debug: false
 
