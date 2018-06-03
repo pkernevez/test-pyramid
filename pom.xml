@@ -15,6 +15,7 @@
         <module>transport-common</module>
         <module>connection-lookup</module>
         <module>journey-booking</module>
+        <!--<module>integration-test</module>-->
     </modules>
 
     <properties>
