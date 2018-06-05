@@ -103,12 +103,6 @@
             <artifactId>spring-cloud-contract-wiremock</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>3.0.7</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -128,42 +122,33 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <repository>localhost:5000/${project.parent.artifactId}/${project.artifactId}</repository>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}-exec.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>add-test-source</id>
-                        <phase>process-resources</phase>
+                        <id>build</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>add-test-source</goal>
+                            <goal>build</goal>
                         </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/it/java</source>
-                            </sources>
-                        </configuration>
                     </execution>
                     <execution>
-                        <id>add-integration-test-resources</id>
-                        <phase>generate-test-resources</phase>
+                        <id>push</id>
+                        <phase>install</phase>
                         <goals>
-                            <goal>add-test-resource</goal>
+                            <goal>push</goal>
                         </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>src/it/resources</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 

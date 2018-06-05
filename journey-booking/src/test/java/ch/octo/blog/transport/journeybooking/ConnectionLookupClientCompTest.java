@@ -88,6 +88,7 @@ public class ConnectionLookupClientCompTest {
         assertThat(connections.getConnections()).isEmpty();
     }
 
+    @SuppressWarnings("unused")
     @TestConfiguration
     public static class ServerConfiguration {
         @Bean
