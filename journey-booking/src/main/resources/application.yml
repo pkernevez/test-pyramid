@@ -5,9 +5,9 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: bob
-    password: marley
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     platform: POSTGRESQL
     initialization-mode: always
     schema: classpath:sql/schema.sql
@@ -53,7 +53,7 @@ ribbon:
 
 connections:
   ribbon:
-    listOfServers: localhost:8080
+    listOfServers: ${CONNECTION_LOOKUP_SERVER}
     NIWSServerListClassName : com.netflix.loadbalancer.ConfigurationBasedServerList
 
 server:
@@ -61,17 +61,18 @@ server:
 
 logging:
   level:
-    root: DEBUG
+    root: WARN
     ch.octo.blog.transport: DEBUG
 debug: false
 
 ---
 spring:
-  profiles: release
+  profiles: test
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: bob
+    password: marley
+
 connections:
   ribbon:
-    listOfServers: ${CONNECTION_LOOKUP_SERVER}
+    listOfServers: localhost:8080

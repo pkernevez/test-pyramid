@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("testpg")
+@ActiveProfiles({"test", "testpg"})
 public class JourneyRepositoryPostgresCompTest extends JourneyRepositoryCompTestCommon {
 
 }
