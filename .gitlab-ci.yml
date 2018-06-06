@@ -16,7 +16,6 @@ services:
 build:
   stage: build
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
     - ./mvnw install -Ddocker.registry=registry.gitlab.com
   only:
     - master
