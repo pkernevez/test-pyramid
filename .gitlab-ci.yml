@@ -14,9 +14,9 @@ services:
   - docker:dind
   
 build:
-  stage: test
+  stage: build
   script:
-    - './mvnw package'
+    - './mvnw install'
   only:
     - master
 
