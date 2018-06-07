@@ -3,6 +3,7 @@
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
+  MVN_CLI_OPS: -Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true --batch-mode --errors --show-version
 
 cache:
   paths:
@@ -16,7 +17,7 @@ services:
 build:
   stage: build
   script:
-    - ./mvnw install -Ddocker.registry=registry.gitlab.com -Ddockerfile.username=gitlab-ci-token -Ddockerfile.password=$CI_BUILD_TOKEN
+    - ./mvnw install -X -Ddocker.registry=registry.gitlab.com -Ddockerfile.username=gitlab-ci-token -Ddockerfile.password=$CI_BUILD_TOKEN $MVN_CLI_OPS
   only:
     - master
 
