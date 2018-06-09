@@ -1,1 +1,1 @@
-DELETE FROM journey WHERE station_from='Vc4VFP1Ne2rfw4oMJ2' AND station_to='bbUadutMTFVn4JPFpS';
+DELETE FROM transport.journey WHERE station_from='Vc4VFP1Ne2rfw4oMJ2' AND station_to='bbUadutMTFVn4JPFpS';

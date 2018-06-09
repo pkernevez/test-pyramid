@@ -81,6 +81,6 @@ public abstract class JourneyRepositoryCompTestCommon {
     }
 
     private int countRowsInTable() {
-        return DataAccessUtils.intResult(entityManager.createNativeQuery("SELECT count(*) FROM Journey").getResultList());
+        return DataAccessUtils.intResult(entityManager.createNativeQuery("SELECT count(*) FROM {h-schema}Journey").getResultList());
     }
 }

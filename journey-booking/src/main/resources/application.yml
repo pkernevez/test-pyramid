@@ -10,21 +10,19 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
     platform: POSTGRESQL
     initialization-mode: always
-    schema: classpath:sql/schema.sql
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
+    open-in-view: false
     properties:
       hibernate:
-        jdbc:
-          time_zone: UTC
-        temp:
-          use_jdbc_metadata_defaults: false
-    open-in-view: false
+        default_schema: transport
   cloud:
     refresh:
       enabled: false # https://github.com/spring-cloud/spring-cloud-commons/issues/355
+  flyway:
+    schemas: transport
 
 hystrix:
   command:
