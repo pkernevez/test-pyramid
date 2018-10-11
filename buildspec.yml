@@ -8,6 +8,9 @@ phases:
       - add-apt-repository ppa:openjdk-r/ppa
       - apt-get update -y
       - apt-get install -y openjdk-8-jdk
+      - apt-get install -y --no-install-recommends ca-certificates-java
+      - apt-get clean
+      - update-ca-certificates -f
       - apt-get install -y maven
   build:
     commands:
