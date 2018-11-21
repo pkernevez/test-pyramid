@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -12,6 +11,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Location {
 
-    @NotBlank
+    @NotNull
     private String name;
 }

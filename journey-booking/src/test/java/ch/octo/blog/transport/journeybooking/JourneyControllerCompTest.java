@@ -7,7 +7,6 @@ import ch.octo.blog.transport.dto.Location;
 import ch.octo.blog.transport.journeybooking.model.Journey;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;

@@ -18,9 +18,9 @@ import java.util.OptionalLong;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-@Data
 @Builder
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Checkpoint.ValidTimes
 @JsonInclude(NON_NULL)
@@ -52,6 +52,11 @@ public class Checkpoint {
     }
 
     public static class CheckpointTimesValidator implements ConstraintValidator<ValidTimes, Checkpoint> {
+        @Override
+        public void initialize(ValidTimes constraintAnnotation) {
+
+        }
+
         @Override
         public boolean isValid(Checkpoint checkpoint, ConstraintValidatorContext context) {
             return checkpoint.arrival != null || checkpoint.departure != null;

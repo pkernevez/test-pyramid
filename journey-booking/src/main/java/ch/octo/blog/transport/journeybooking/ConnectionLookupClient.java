@@ -1,7 +1,7 @@
 package ch.octo.blog.transport.journeybooking;
 
 import ch.octo.blog.transport.dto.Connections;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -7,6 +7,7 @@
 		<groupId>ch.octo.blog</groupId>
 		<artifactId>transport</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 	
 	<artifactId>connection-lookup</artifactId>
@@ -56,6 +57,16 @@
             <version>3.9.1</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+		<dependency>
+      		<groupId>javax.validation</groupId>
+      		<artifactId>validation-api</artifactId>
+      		<version>2.0.1.Final</version> <!--Necessaire pour Hibernate validator 4.3+-->
+		</dependency>
 	</dependencies>
 
 	<build>

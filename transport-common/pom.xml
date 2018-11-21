@@ -18,6 +18,7 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version> <!--Necessaire pour Hibernate validator 4.3+-->
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
