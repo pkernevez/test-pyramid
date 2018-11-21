@@ -4,6 +4,9 @@ This repo is linked to a series of articles published on the [OCTO blog](https:/
 
 To setup the whole environment amd execute all tests:
 
+You should have a docker repository running on your desktop :
+`docker run -d -p 5000:5000 --restart always --name my-registry registry:latest`
+
 `mvn clean install` will build the project and launch unit tests, component tests and contract tests. 
 It will also build the docker images of each module.
 
