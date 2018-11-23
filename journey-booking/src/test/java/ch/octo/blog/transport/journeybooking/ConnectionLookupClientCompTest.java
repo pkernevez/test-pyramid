@@ -10,6 +10,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.client.WebClientRestTemplateAutoConfiguration;
@@ -20,6 +21,7 @@ import org.springframework.cloud.netflix.ribbon.StaticServerList;
 import org.springframework.cloud.netflix.feign.FeignAutoConfiguration;
 import org.springframework.cloud.netflix.feign.ribbon.FeignRibbonClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -38,8 +40,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
  * See also {@link ConnectionLookupClientContractTest} which provides an equivalent test but with contract verification.
  */
 @RunWith(SpringRunner.class)
-@ImportAutoConfiguration({RibbonAutoConfiguration.class, FeignRibbonClientAutoConfiguration.class, FeignAutoConfiguration.class, WebClientRestTemplateAutoConfiguration.class, JacksonAutoConfiguration.class})
+//@ImportAutoConfiguration({RibbonAutoConfiguration.class, FeignRibbonClientAutoConfiguration.class, FeignAutoConfiguration.class, WebClientRestTemplateAutoConfiguration.class, JacksonAutoConfiguration.class})
+@EnableAutoConfiguration
+//A revoir avec https://gitter.im/spring-cloud/spring-cloud-contract/archives/2017/07/25
 @SpringBootTest(classes = {ConnectionLookupClient.class, ConnectionLookupFallback.class, ConfigurationFeign.class})
+@ActiveProfiles("testpg")
 public class ConnectionLookupClientCompTest {
 
     private static final String LAUSANNE = "Lausanne";
