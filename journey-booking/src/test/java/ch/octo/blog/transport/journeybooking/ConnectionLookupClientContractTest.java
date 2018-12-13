@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.cloud.contract.stubrunner.StubFinder;
@@ -16,6 +17,9 @@ import org.springframework.cloud.netflix.feign.FeignAutoConfiguration;
 import org.springframework.cloud.netflix.feign.ribbon.FeignRibbonClientAutoConfiguration;
 import org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration;
 import org.springframework.cloud.netflix.ribbon.StaticServerList;
+import org.springframework.cloud.stream.config.BinderFactoryConfiguration;
+import org.springframework.cloud.stream.test.binder.MessageCollectorAutoConfiguration;
+import org.springframework.cloud.stream.test.binder.TestSupportBinderAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,12 +32,14 @@ import static org.junit.Assert.assertNotNull;
  * See also {@link ConnectionLookupClientCompTest} which is very similar except we don't manage Wiremock here, as it is managed by Spring and @{@link AutoConfigureStubRunner}
  */
 @RunWith(SpringRunner.class)
-//@ImportAutoConfiguration({RibbonAutoConfiguration.class,
-//        FeignRibbonClientAutoConfiguration.class,
-//        FeignAutoConfiguration.class})
-@EnableAutoConfiguration
-//A revoir avec https://gitter.im/spring-cloud/spring-cloud-contract/archives/2017/07/25
+@ImportAutoConfiguration({RibbonAutoConfiguration.class,
+        HttpMessageConvertersAutoConfiguration.class,
+        FeignRibbonClientAutoConfiguration.class,
+        FeignAutoConfiguration.class,
+        MessageCollectorAutoConfiguration.class,
+        TestSupportBinderAutoConfiguration.class})
 @SpringBootTest(classes = {ConnectionLookupClient.class, ConfigurationFeign.class},
+        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         properties = {
                 "feign.hystrix.enabled=false"
         }
