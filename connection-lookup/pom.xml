@@ -8,12 +8,24 @@
 		<artifactId>transport</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>connection-lookup</artifactId>
 	<packaging>jar</packaging>
 
 	<name>connection-lookup</name>
 	<description>Lookup for connections</description>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<type>pom</type>
+				<scope>import</scope>
+				<version>Finchley.RELEASE</version>
+			</dependency>
+</dependencies>
+	</dependencyManagement>
+
 
 	<dependencies>
         <dependency>
