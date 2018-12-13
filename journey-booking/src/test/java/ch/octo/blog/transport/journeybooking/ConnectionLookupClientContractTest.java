@@ -31,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
         FeignRibbonClientAutoConfiguration.class,
         FeignAutoConfiguration.class})
 @SpringBootTest(classes = {ConnectionLookupClient.class, ConfigurationFeign.class},
+        webEnvironment = SpringBootTest.WebEnvironment.NONE,
         properties = {
                 "feign.hystrix.enabled=false"
         }
