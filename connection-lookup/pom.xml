@@ -16,6 +16,18 @@
 	<name>connection-lookup</name>
 	<description>Lookup for connections</description>
 
+	<dependencyManagement>
+<dependencies>
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-dependencies</artifactId>
+		<type>pom</type>
+		<scope>import</scope>
+		<version>Edgware.RELEASE</version>
+	</dependency>
+</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
         <dependency>
             <groupId>ch.octo.blog</groupId>
